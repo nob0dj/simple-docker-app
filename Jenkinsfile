@@ -63,7 +63,7 @@ pipeline {
             }
           }
           post {
-						success {
+			success {
 	            echo 'Successfully Build Docker Image'
 	          }
             failure {
