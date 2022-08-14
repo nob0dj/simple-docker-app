@@ -9,7 +9,7 @@ pipeline {
         imageName = 'shqkel/simple-docker-app' // 사용자명/저장소명
         registryCredentials = 'dockerhub-credentials' // 저장된 dockerhub 인증정보명
         dockerImage = ''
-		BUILD_NUMBER = '0.0.4'
+		BUILD_NUMBER = '0.0.5'
 		TARGET_HOST = "ubuntu@130.162.159.60"
 	    sshCredentials = 'ssh-jenkins' // 저장된 ssh 인증정보 id
 		containerName= 'app'
