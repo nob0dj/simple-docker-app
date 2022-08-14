@@ -7,11 +7,11 @@ pipeline {
 
     environment {
         imageName = 'shqkel/simple-docker-app' // 사용자명/저장소명
-        registryCredentials = 'dockerhub-credential' // 저장된 dockerhub 인증정보명
+        registryCredentials = 'dockerhub-credentials' // 저장된 dockerhub 인증정보명
         dockerImage = ''
 		BUILD_NUMBER = '0.0.3'
-		TARGET_HOST = "ubuntu@146.56.176.119"
-	    sshCredentials = 'ssh-to-oci-shqkel' // 저장된 ssh 인증정보 id
+		TARGET_HOST = "ubuntu@130.162.159.60"
+	    sshCredentials = 'ssh-jenkins' // 저장된 ssh 인증정보 id
 		containerName= 'app'
     }
 
@@ -20,7 +20,7 @@ pipeline {
         stage('Prepare') {
           steps {
             echo 'Clonning Repository'
-            git url: 'http://gitlab/shqkel/simple-docker-app.git',
+            git url: 'https://github.com/nob0dj/simple-docker-app.git',
               branch: 'main'
             }
             post {
@@ -94,7 +94,7 @@ pipeline {
           steps {
             echo 'Pull Docker Image Via SSH & Run'
 
-            sshagent (credentials: ['ssh-to-oci-shqkel']) {
+            sshagent (credentials: ['ssh-jenkins']) {
                 sh """
                     ssh -o StrictHostKeyChecking=no ${TARGET_HOST} '
                     docker pull ${imageName}
