@@ -50,5 +50,5 @@ jobs:
         script: |
           docker stop $(docker ps -a -q) 
           docker rm $(docker ps -a -q) 
-          docker pull <docker_hub_username>/<image_name>
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}
           docker run -d -p 8080:8080 --name ${{ vars.APP_NAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}
