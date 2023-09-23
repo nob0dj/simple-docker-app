@@ -13,22 +13,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
-    - name: Docker Build
+    
+    - uses: actions/checkout@v3
+    
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    
+    - name: Build with Docker
       run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }} .
+      
     - name: Docker Hub Login
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
     - name: Docker Hub Publish
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.APP_NAME }}
+      
     - name: WAS Instance S
       uses: appleboy/ssh-action@v0.1.6
       with:
